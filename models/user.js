@@ -18,9 +18,21 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    userName: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    hash: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    salt: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
     createdAt: {
       type: 'TIMESTAMP',
@@ -31,20 +43,19 @@ module.exports = (sequelize, DataTypes) => {
       type: 'TIMESTAMP',
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
       allowNull: false
-    },
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
     }
   }, {
     sequelize,
     modelName: 'User',
   });
+
   passportLocalSequelize.attachToUser(User, {
-    usernameField: 'userName',
+    usernameField: 'username',
     hashField: 'hash',
-    saltField: 'f1nd1ngn3m0'
+    saltField: 'salt'
   });
 
   return User;
 };
+
+

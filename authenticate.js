@@ -14,18 +14,23 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-exports.getToken = function (user) {
-    console.log( jwt.sign(user, config.secretKey,
-        { expiresIn: 3600 }));
+exports.getToken = (userId) => {
+    jwt.sign(userId, config.secretKey, { expiresIn: 3600 }, (err, token) => {
+        if (err) {
+            console.log("This error occurs at signing level", err)
+        }
+        console.log("This is the user id at atuh", userId)
+        console.log("This is the token at auth level", token)
+        return token
+    })
 };
-
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = config.secretKey;
 
 exports.jwtPassport = passport.use(new JwtStrategy(opts,
     (jwt_payload, done) => {
-        User.findOne({ _id: jwt_payload._id }, (err, user) => {
+        User.findOne({ id: jwt_payload.id }, (err, user) => {
             if (err) {
                 return done(err, false);
             }

@@ -11,7 +11,8 @@ var indexRouter = require('./routes/indexRouter');
 var usersRouter = require('./routes/usersRouter');
 
 async function dbSync() {
-  await db.sequelize.sync({ force: true })
+  // await db.sequelize.sync({ force: true })
+  await db.sequelize.sync()
 }
 
 dbSync();

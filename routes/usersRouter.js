@@ -11,8 +11,7 @@ userRouter.use(bodyParser.json())
 
 
 userRouter.post('/signup', (req, res, next) => {
-  User.register(User.build({ username: req.body.username }), req.body.password, (err, user) => {
-    console.log(req.body.password)
+  User.register(User.build({ username: req.body.username, isAdmin: req.body.isAdmin }), req.body.password, (err, user) => {
     if (err) {
       res.statusCode = 500;
       res.setHeader('Content-Type', 'application/json');
@@ -30,8 +29,10 @@ userRouter.post('/signup', (req, res, next) => {
 });
 
 userRouter.post('/login', passport.authenticate('local'), (req, res) => {
-
-  let token = authenticate.getToken({ _id: req.user._id })
+  
+  console.log('This is the id at userRouter', req.user.id)
+  let token = authenticate.getToken({ id: req.user.id })
+  console.log('The token is', token);
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
   res.json({ success: true, token: token, status: 'You are successfully logged in!' });
