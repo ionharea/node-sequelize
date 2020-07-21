@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const db = require('../models/index')
 const passport = require('passport');
 const authenticate = require('../authenticate');
+const jwt = require('jsonwebtoken')
 
 const User = db.User
 
@@ -28,11 +29,8 @@ userRouter.post('/signup', (req, res, next) => {
   })
 });
 
-userRouter.post('/login', passport.authenticate('local'), (req, res) => {
-  
-  console.log('This is the id at userRouter', req.user.id)
-  let token = authenticate.getToken({ id: req.user.id })
-  console.log('The token is', token);
+userRouter.post('/login', passport.authenticate('local'), async (req, res) => {
+  let token = await authenticate.getToken(req.user.id)
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
   res.json({ success: true, token: token, status: 'You are successfully logged in!' });
