@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
-      User.hasMany(models.Article)
+      User.hasMany(models.Article, { foreignKey: 'userId' })
     }
   };
   User.init({
@@ -35,15 +35,27 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false
     },
     createdAt: {
-      type: 'TIMESTAMP',
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
       allowNull: false
     },
     updatedAt: {
-      type: 'TIMESTAMP',
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
       allowNull: false
     }
+    // createdAt: {
+    //   type: 'TIMESTAMP',
+    //   defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+    //   allowNull: false
+    // },
+    // updatedAt: {
+    //   type: 'TIMESTAMP',
+    //   defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+    //   allowNull: false
+    // }
+    
+    // The above example works perfectly fine as well!
   }, {
     sequelize,
     modelName: 'User',

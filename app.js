@@ -7,8 +7,10 @@ const passport = require('passport');
 
 const db = require('./models/index');
 
-var indexRouter = require('./routes/indexRouter');
-var usersRouter = require('./routes/usersRouter');
+const indexRouter = require('./routes/indexRouter');
+const usersRouter = require('./routes/usersRouter');
+const articlesRouter = require('./routes/articlesRouter')
+
 
 async function dbSync() {
   // await db.sequelize.sync({ force: true })
@@ -33,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/articles', articlesRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

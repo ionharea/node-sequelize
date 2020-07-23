@@ -4,10 +4,10 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Article extends Model {
-   
+
     static associate(models) {
 
-      Article.belongsTo(models.User)
+      Article.belongsTo(models.User, { foreignKey: 'userId' })
     }
   };
   Article.init({
@@ -17,20 +17,38 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       allowNull: false,
     },
-    content: {
+    title: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     createdAt: {
-      type: 'TIMESTAMP', 
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
       allowNull: false
     },
     updatedAt: {
-      type: 'TIMESTAMP', 
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
       allowNull: false
     }
+    // createdAt: {
+    //   type: 'TIMESTAMP',
+    //   defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+    //   allowNull: false
+    // },
+    // updatedAt: {
+    //   type: 'TIMESTAMP',
+    //   defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+    //   allowNull: false
+    // }
   }, {
     sequelize,
     modelName: 'Article',
