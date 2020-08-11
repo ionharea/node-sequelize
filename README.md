@@ -1,6 +1,6 @@
 ## Description
 
-BEND Task Node JS.
+Node Js Small project
 
 ## Installation
 
